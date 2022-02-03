@@ -5,12 +5,12 @@ import styled from "styled-components/native";
 
 import { RestaurantInfoCard } from "../components/restaurant-info-card.components";
 
-const Container = styled(SafeAreaView)`
+const SafeArea = styled(SafeAreaView)`
   flex: 1;
 `;
 
 const SearchContainer = styled(View)`
-  margin-top: ${StatusBar.currentHeight};
+  ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px;`}
   padding: 10px;
 `;
 
@@ -20,12 +20,12 @@ const ListContainer = styled(View)`
 `;
 
 export const RestaurantsScreen = () => (
-  <Container>
+  <SafeArea>
     <SearchContainer>
       <Searchbar placeholder="Search..." />
     </SearchContainer>
     <ListContainer>
       <RestaurantInfoCard />
     </ListContainer>
-  </Container>
+  </SafeArea>
 );
