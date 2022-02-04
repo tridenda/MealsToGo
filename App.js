@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { ThemeProvider } from "styled-components/native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { theme } from "./src/infrastructure/theme";
 import { RestaurantsScreen } from "./src/features/restaurants/screens/restaurants.screen";
@@ -15,18 +15,20 @@ import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+const TAB_ICON = {
+  Home: "md-restaurant",
+  Map: "md-map",
+  Settings: "md-settings",
+};
+
 function HomeScreen() {
-  return (
-    <ThemeProvider theme={theme}>
-      <RestaurantsScreen />
-    </ThemeProvider>
-  );
+  return <RestaurantsScreen />;
 }
 
-function MapsScreen() {
+function MapScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Maps</Text>
+      <Text>Map</Text>
     </View>
   );
 }
@@ -40,6 +42,14 @@ function SettingsScreen() {
 }
 
 const Tab = createBottomTabNavigator();
+
+const createTabBarIcon = (route) => {
+  const iconName = TAB_ICON[route.name];
+
+  return ({ size, color }) => (
+    <Ionicons name={iconName} size={size} color={color} />
+  );
+};
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -55,32 +65,21 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === "Home") {
-              iconName = focused ? "restaurant-outline" : "restaurant-outline";
-            } else if (route.name === "Maps") {
-              iconName = focused ? "map-outline" : "map-outline";
-            } else if (route.name === "Settings") {
-              iconName = focused ? "settings-outline" : "settings-outline";
-            }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "gray",
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Maps" component={MapsScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-      </Tab.Navigator>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: createTabBarIcon(route),
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Map" component={MapScreen} />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
       <ExpoStatusBar style="auto" />
-    </NavigationContainer>
+    </ThemeProvider>
   );
 }
