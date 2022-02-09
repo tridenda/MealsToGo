@@ -11,8 +11,8 @@ const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
   Restaurants: "md-restaurant",
-  Map: "md-map",
-  Settings: "md-settings",
+  MapScreen: "md-map",
+  SettingsScreen: "md-settings",
 };
 
 function MapScreen() {
@@ -51,8 +51,8 @@ export const AppNavigator = () => {
         })}
       >
         <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
-        <Tab.Screen name="Map" component={MapScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="MapScreen" component={MapScreen} />
+        <Tab.Screen name="SettingsScreen" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
