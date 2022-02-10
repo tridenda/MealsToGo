@@ -8,6 +8,7 @@ import { RestaurantInfoCard } from "../components/restaurant-info-card.component
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Search } from "../components/search.component";
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+import { FavoritesContext } from "../../../services/favorites/favorites.context";
 import { FavoritesBar } from "../../../components/favorites/favorites-bar.component";
 
 const Loading = styled(ActivityIndicator)`
@@ -28,8 +29,9 @@ const RestaurantList = styled(FlatList).attrs({
 
 export const RestaurantsScreen = ({ navigation }) => {
   const { isLoading, restaurants } = useContext(RestaurantsContext);
+  const { favorites } = useContext(FavoritesContext);
   const [isToggled, setIsToggled] = useState(false);
-  
+
   return (
     <>
       {isLoading && (
@@ -42,7 +44,12 @@ export const RestaurantsScreen = ({ navigation }) => {
           isFavoritesToggled={isToggled}
           onFavoritesToggle={() => setIsToggled(!isToggled)}
         />
-        {isToggled && <FavoritesBar />}
+        {isToggled && (
+          <FavoritesBar
+            favorites={favorites}
+            onNavigate={navigation.navigate}
+          />
+        )}
         <RestaurantList
           data={restaurants}
           renderItem={({ item }) => {
