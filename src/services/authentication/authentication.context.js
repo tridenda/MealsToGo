@@ -44,13 +44,7 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogout = () => {
     setUser(null);
-    signOut(auth)
-      .then(() => {
-        console.log(" Sign-out successful.");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+    signOut(auth);
   };
 
   onAuthStateChanged(auth, (usr) => {
