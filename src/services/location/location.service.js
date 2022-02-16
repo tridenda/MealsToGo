@@ -1,7 +1,6 @@
 import camelize from "camelize";
 
 export const locationRequest = (searchTerm) => {
-  console.log(searchTerm);
   return fetch(
     `http://192.168.100.2:5001/mealstogo-dd099/us-central1/geocode?city=${searchTerm}`
   ).then((res) => {
